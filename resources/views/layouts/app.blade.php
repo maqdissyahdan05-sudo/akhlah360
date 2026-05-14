@@ -86,7 +86,23 @@
                     
                     @elseif($role === 'manajemen')
                         <x-nav-link href="{{ route('management.dashboard') }}" :active="request()->routeIs('management.dashboard')">View Dashboard</x-nav-link>
-                        <x-nav-link href="{{ route('management.reports.index') }}" :active="request()->routeIs('management.reports.*')">Assessment Report</x-nav-link>
+                        
+                        <div x-data="{ open: {{ request()->routeIs('management.reports.*') ? 'true' : 'false' }} }">
+                            <button @click="open = !open" class="w-full flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-600 hover:bg-blue-50 hover:text-blue-700 rounded-lg transition-all group">
+                                <span class="flex items-center">
+                                    <svg class="w-5 h-5 mr-3 text-gray-400 group-hover:text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg>
+                                    Assessment Report
+                                </span>
+                                <svg class="w-4 h-4 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak class="mt-1 ml-4 pl-4 border-l border-gray-100 space-y-1">
+                                <x-nav-link href="{{ route('management.reports.index') }}" :active="request()->routeIs('management.reports.index')" class="!py-1.5 !text-xs">View Assessment Report</x-nav-link>
+                                <x-nav-link href="{{ route('management.reports.gap-analysis') }}" :active="request()->routeIs('management.reports.gap-analysis')" class="!py-1.5 !text-xs">View Gap Analysis</x-nav-link>
+                                <x-nav-link href="{{ route('management.reports.trend') }}" :active="request()->routeIs('management.reports.trend')" class="!py-1.5 !text-xs">View Employee Performance Trend</x-nav-link>
+                                <a href="{{ route('management.reports.export') }}" class="block px-4 py-1.5 text-xs font-medium text-gray-500 hover:text-blue-600 rounded-md">Export Report</a>
+                            </div>
+                        </div>
+
                         <x-nav-link href="{{ route('assessment.dashboard') }}" :active="request()->routeIs('assessment.dashboard')">Personal Dashboard</x-nav-link>
                         <x-nav-link href="{{ route('assessment.tasks') }}" :active="request()->routeIs('assessment.tasks') || request()->routeIs('assessment.form.*')">Assessment Form</x-nav-link>
                     
