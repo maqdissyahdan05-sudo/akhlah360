@@ -31,7 +31,7 @@
                     @php $role = auth()->user()->role->role_slug; @endphp
                     
                     @if($role === 'admin_hr')
-                        <x-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')">View Dashboard</x-nav-link>
+                        <x-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')">Dashboard</x-nav-link>
                         
                         <div x-data="{ open: {{ request()->routeIs('admin.periods.*') || request()->routeIs('admin.assignments.*') ? 'true' : 'false' }} }">
                             <button @click="open = !open" class="w-full flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-600 hover:bg-blue-50 hover:text-blue-700 rounded-lg transition-all group">
@@ -82,7 +82,7 @@
                         <x-nav-link href="{{ route('assessment.tasks') }}" :active="request()->routeIs('assessment.tasks') || request()->routeIs('assessment.form.*')">Assessment Form</x-nav-link>
                     
                     @elseif($role === 'manajemen')
-                        <x-nav-link href="{{ route('management.dashboard') }}" :active="request()->routeIs('management.dashboard')">View Dashboard</x-nav-link>
+                        <x-nav-link href="{{ route('management.dashboard') }}" :active="request()->routeIs('management.dashboard')">Dashboard</x-nav-link>
                         
                         <div x-data="{ open: {{ request()->routeIs('management.reports.*') ? 'true' : 'false' }} }">
                             <button @click="open = !open" class="w-full flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-600 hover:bg-blue-50 hover:text-blue-700 rounded-lg transition-all group">
