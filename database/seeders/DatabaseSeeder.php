@@ -64,24 +64,35 @@ class DatabaseSeeder extends Seeder
         for ($i = 0; $i < 20; $i++) {
             $isManager = ($i + 1) % 5 === 0; // Every 5th person is a manager
             
+            $supervisorId = null;
+            if ($i === 3) { // Arsha
+                $supervisorId = 2; // Maqdis is ID 2 (index 1)
+            } elseif (!$isManager && $i > 4) {
+                $supervisorId = Employee::where('employee_id', '<', $i + 1)->inRandomOrder()->first()?->employee_id;
+            }
+
             $emp = Employee::create([
                 'employee_number' => 'EMP-' . str_pad($i + 1, 3, '0', STR_PAD_LEFT),
                 'employee_name' => $names[$i],
-                'department_id' => $createdDepts[array_rand($createdDepts)],
-                'supervisor_id' => !$isManager && $i > 4 ? Employee::where('employee_id', '<', $i + 1)->inRandomOrder()->first()?->employee_id : null,
+                'department_id' => $createdDepts[$i % 5], // Distribute departments evenly
+                'supervisor_id' => $supervisorId,
             ]);
             $employees[] = $emp;
 
             // Generate user account for them
             if ($i === 0) { // Force first to be Admin HR
                 User::create(['username' => 'adminhr', 'role_id' => $adminRole, 'employee_id' => $emp->employee_id, 'email' => 'admin@akhlak.local', 'password' => $defaultPassword]);
-            } elseif ($i === 1) { // Force second to be Manajemen
-                User::create(['username' => 'manajemen', 'role_id' => $manajemenRole, 'employee_id' => $emp->employee_id, 'email' => 'manajemen@akhlak.local', 'password' => $defaultPassword]);
-            } elseif ($isManager || $i === 2) {
-                $username = $i === 2 ? 'atasan' : 'manager' . ($i + 1);
+            } elseif ($i === 1) { // Force second to be Manajemen (Maqdis)
+                User::create(['username' => 'maqdis', 'role_id' => $manajemenRole, 'employee_id' => $emp->employee_id, 'email' => 'maqdis@akhlak.local', 'password' => $defaultPassword]);
+            } elseif ($i === 2) { // Cindy (Superior)
+                User::create(['username' => 'cindy', 'role_id' => $atasanRole, 'employee_id' => $emp->employee_id, 'email' => 'cindy@akhlak.local', 'password' => $defaultPassword]);
+            } elseif ($i === 3) { // Arsha (Karyawan)
+                User::create(['username' => 'arsha', 'role_id' => $karyawanRole, 'employee_id' => $emp->employee_id, 'email' => 'arsha@akhlak.local', 'password' => $defaultPassword]);
+            } elseif ($isManager) {
+                $username = 'manager' . ($i + 1);
                 User::create(['username' => $username, 'role_id' => $atasanRole, 'employee_id' => $emp->employee_id, 'email' => $username . '@akhlak.local', 'password' => $defaultPassword]);
             } else {
-                $username = $i === 3 ? 'karyawan' : 'staff' . ($i + 1);
+                $username = 'staff' . ($i + 1);
                 User::create(['username' => $username, 'role_id' => $karyawanRole, 'employee_id' => $emp->employee_id, 'email' => $username . '@akhlak.local', 'password' => $defaultPassword]);
             }
         }
