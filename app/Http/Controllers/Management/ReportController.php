@@ -86,7 +86,7 @@ class ReportController extends Controller
                 ->first();
             
             if (!$latestPeriod) {
-                return back()->with('error', 'Pilih periode penilaian terlebih dahulu.');
+                return back()->with('error', 'Please select or create an assessment period first.');
             }
             $periodId = $latestPeriod->period_id;
         }
@@ -101,7 +101,7 @@ class ReportController extends Controller
         $period = AssessmentPeriod::find($periodId);
         
         if (!$period) {
-            return back()->with('error', 'Periode tidak ditemukan.');
+            return back()->with('error', 'Assessment period not found.');
         }
 
         $filename = "assessment_report_" . str_replace(' ', '_', $period->period_name) . ".csv";

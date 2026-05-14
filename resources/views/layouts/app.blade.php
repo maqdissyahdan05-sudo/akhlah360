@@ -76,7 +76,7 @@
                                 <x-nav-link href="{{ route('management.reports.gap-analysis') }}" :active="request()->routeIs('management.reports.gap-analysis')" class="!py-1.5 !text-xs">View Gap Analysis</x-nav-link>
                                 <x-nav-link href="{{ route('management.reports.trend') }}" :active="request()->routeIs('management.reports.trend')" class="!py-1.5 !text-xs">View Employee Performance Trend</x-nav-link>
                                 <a href="{{ route('management.reports.export-preview') }}" class="block px-4 py-1.5 text-xs font-bold {{ request()->routeIs('management.reports.export-preview') ? 'text-blue-700 bg-blue-50' : 'text-gray-500 hover:text-blue-600' }} rounded-md transition-all">
-                                    Export Report <span class="ml-1 text-[10px] bg-blue-600 text-white px-1 rounded">NEW</span>
+                                    Export Report
                                 </a>
                             </div>
                         </div>
@@ -100,7 +100,7 @@
                                 <x-nav-link href="{{ route('management.reports.gap-analysis') }}" :active="request()->routeIs('management.reports.gap-analysis')" class="!py-1.5 !text-xs">View Gap Analysis</x-nav-link>
                                 <x-nav-link href="{{ route('management.reports.trend') }}" :active="request()->routeIs('management.reports.trend')" class="!py-1.5 !text-xs">View Employee Performance Trend</x-nav-link>
                                 <a href="{{ route('management.reports.export-preview') }}" class="block px-4 py-1.5 text-xs font-bold {{ request()->routeIs('management.reports.export-preview') ? 'text-blue-700 bg-blue-50' : 'text-gray-500 hover:text-blue-600' }} rounded-md transition-all">
-                                    Export Report <span class="ml-1 text-[10px] bg-blue-600 text-white px-1 rounded">NEW</span>
+                                    Export Report
                                 </a>
                             </div>
                         </div>
