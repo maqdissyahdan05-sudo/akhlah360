@@ -1,4 +1,4 @@
-<?php
+<?php // Triggering re-deployment
 
 namespace App\Providers;
 
