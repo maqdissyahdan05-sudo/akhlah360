@@ -32,19 +32,54 @@
                     
                     @if($role === 'admin_hr')
                         <x-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')">View Dashboard</x-nav-link>
-                        <x-nav-link href="{{ route('admin.periods.index') }}" :active="request()->routeIs('admin.periods.*')">Manage Assessment Period</x-nav-link>
-                        <x-nav-link href="{{ route('admin.assignments.index') }}" :active="request()->routeIs('admin.assignments.*')">Assign 360 Raters</x-nav-link>
-                        <x-nav-link href="{{ route('admin.progress.index') }}" :active="request()->routeIs('admin.progress.*')">Monitor Assessment Progress</x-nav-link>
-                        <x-nav-link href="{{ route('management.reports.index') }}" :active="request()->routeIs('management.reports.*')">Assessment Report</x-nav-link>
-                        <x-nav-link href="{{ route('assessment.dashboard') }}" :active="request()->routeIs('assessment.dashboard')">Personal Dashboard</x-nav-link>
-                        <x-nav-link href="{{ route('assessment.tasks') }}" :active="request()->routeIs('assessment.tasks') || request()->routeIs('assessment.form.*')">Assessment Tasks</x-nav-link>
                         
-                        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-6 mb-2 px-1">Master Data</p>
-                        <x-nav-link href="{{ route('admin.employees.index') }}" :active="request()->routeIs('admin.employees.*')">Employee Directory</x-nav-link>
-                        <x-nav-link href="{{ route('admin.departments.index') }}" :active="request()->routeIs('admin.departments.*')">Departments</x-nav-link>
-                        <x-nav-link href="{{ route('admin.akhlaq-values.index') }}" :active="request()->routeIs('admin.akhlaq-values.*')">Core Values (AKHLAK)</x-nav-link>
-                        <x-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.*')">User Accounts</x-nav-link>
-                        <x-nav-link href="{{ route('admin.audit-logs.index') }}" :active="request()->routeIs('admin.audit-logs.*')">View Audit Trail</x-nav-link>
+                        <div x-data="{ open: {{ request()->routeIs('admin.periods.*') || request()->routeIs('admin.assignments.*') ? 'true' : 'false' }} }">
+                            <button @click="open = !open" class="w-full flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-600 hover:bg-blue-50 hover:text-blue-700 rounded-lg transition-all group">
+                                <span class="flex items-center">
+                                    <svg class="w-5 h-5 mr-3 text-gray-400 group-hover:text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                                    Create Assessment Form
+                                </span>
+                                <svg class="w-4 h-4 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak class="mt-1 ml-4 pl-4 border-l border-gray-100 space-y-1">
+                                <x-nav-link href="{{ route('admin.periods.index') }}" :active="request()->routeIs('admin.periods.*')" class="!py-1.5 !text-xs">Manage Assessment Period</x-nav-link>
+                                <x-nav-link href="{{ route('admin.assignments.index') }}" :active="request()->routeIs('admin.assignments.*')" class="!py-1.5 !text-xs">Assign 360 Raters</x-nav-link>
+                            </div>
+                        </div>
+
+                        <div x-data="{ open: {{ request()->routeIs('admin.progress.*') || request()->routeIs('admin.audit-logs.*') ? 'true' : 'false' }} }">
+                            <button @click="open = !open" class="w-full flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-600 hover:bg-blue-50 hover:text-blue-700 rounded-lg transition-all group">
+                                <span class="flex items-center">
+                                    <svg class="w-5 h-5 mr-3 text-gray-400 group-hover:text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                                    Assessment Progress
+                                </span>
+                                <svg class="w-4 h-4 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak class="mt-1 ml-4 pl-4 border-l border-gray-100 space-y-1">
+                                <x-nav-link href="{{ route('admin.progress.index') }}" :active="request()->routeIs('admin.progress.*')" class="!py-1.5 !text-xs">Monitor Assessment Progress</x-nav-link>
+                                <x-nav-link href="{{ route('admin.audit-logs.index') }}" :active="request()->routeIs('admin.audit-logs.*')" class="!py-1.5 !text-xs">View Audit Trail</x-nav-link>
+                                <a href="#" class="block px-4 py-1.5 text-xs font-medium text-gray-500 hover:text-blue-600 rounded-md">Send Notification</a>
+                            </div>
+                        </div>
+
+                        <div x-data="{ open: {{ request()->routeIs('management.reports.*') ? 'true' : 'false' }} }">
+                            <button @click="open = !open" class="w-full flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-600 hover:bg-blue-50 hover:text-blue-700 rounded-lg transition-all group">
+                                <span class="flex items-center">
+                                    <svg class="w-5 h-5 mr-3 text-gray-400 group-hover:text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg>
+                                    Assessment Report
+                                </span>
+                                <svg class="w-4 h-4 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak class="mt-1 ml-4 pl-4 border-l border-gray-100 space-y-1">
+                                <x-nav-link href="{{ route('management.reports.index') }}" :active="request()->routeIs('management.reports.*')" class="!py-1.5 !text-xs">View Assessment Report</x-nav-link>
+                                <a href="#" class="block px-4 py-1.5 text-xs font-medium text-gray-500 hover:text-blue-600 rounded-md">View Gap Analysis</a>
+                                <a href="#" class="block px-4 py-1.5 text-xs font-medium text-gray-500 hover:text-blue-600 rounded-md">View Employee Performance Trend</a>
+                                <a href="{{ route('management.reports.export') }}" class="block px-4 py-1.5 text-xs font-medium text-gray-500 hover:text-blue-600 rounded-md">Export Report</a>
+                            </div>
+                        </div>
+
+                        <x-nav-link href="{{ route('assessment.dashboard') }}" :active="request()->routeIs('assessment.dashboard')">Personal Dashboard</x-nav-link>
+                        <x-nav-link href="{{ route('assessment.tasks') }}" :active="request()->routeIs('assessment.tasks') || request()->routeIs('assessment.form.*')">Assessment Form</x-nav-link>
                     
                     @elseif($role === 'manajemen')
                         <x-nav-link href="{{ route('management.dashboard') }}" :active="request()->routeIs('management.dashboard')">View Dashboard</x-nav-link>
