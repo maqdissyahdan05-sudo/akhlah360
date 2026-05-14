@@ -102,4 +102,43 @@ class ReportController extends Controller
 
         return response()->stream($callback, 200, $headers);
     }
+
+    public function gapAnalysis(Request $request): View
+    {
+        $periods = AssessmentPeriod::whereIn('status', ['active', 'closed'])->orderByDesc('period_id')->get();
+        $selectedPeriodId = $request->get('period_id', $periods->first()?->period_id);
+        
+        $results = [];
+        if ($selectedPeriodId) {
+            $results = AssessmentResult::with('employee.department')
+                ->where('period_id', $selectedPeriodId)
+                ->orderBy('final_score', 'asc') // Show those with biggest gaps/lowest scores first
+                ->take(10)
+                ->get();
+        }
+
+        return view('management.reports.gap-analysis', compact('periods', 'results', 'selectedPeriodId'));
+    }
+
+    public function trendAnalysis(Request $request): View
+    {
+        $departments = Department::all();
+        $selectedDeptId = $request->get('department_id');
+
+        $periods = AssessmentPeriod::orderBy('start_date')->get();
+        
+        $trendData = [];
+        foreach ($periods as $period) {
+            $avg = AssessmentResult::where('period_id', $period->period_id)
+                ->when($selectedDeptId, fn($q) => $q->whereHas('employee', fn($e) => $e->where('department_id', $selectedDeptId)))
+                ->avg('final_score');
+            
+            $trendData[] = [
+                'period' => $period->period_name,
+                'average' => $avg ? round($avg, 2) : 0
+            ];
+        }
+
+        return view('management.reports.trend', compact('departments', 'selectedDeptId', 'trendData'));
+    }
 }

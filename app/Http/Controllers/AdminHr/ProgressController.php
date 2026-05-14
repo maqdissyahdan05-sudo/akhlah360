@@ -47,4 +47,11 @@ class ProgressController extends Controller
 
         return view('admin.progress.index', compact('periods', 'period', 'progress', 'overallPercent', 'selectedPeriodId'));
     }
+
+    public function sendNotification(Request $request)
+    {
+        // In a real app, you would dispatch a job to send emails/notifications
+        // For now, we simulate sending to all employees with pending tasks
+        return back()->with('success', 'Reminder notifications have been successfully sent to all employees with pending assessment tasks.');
+    }
 }

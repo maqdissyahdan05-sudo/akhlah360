@@ -32,7 +32,7 @@
             
             <div class="relative z-10 text-white w-full max-w-lg">
                 <h1 class="text-4xl lg:text-5xl font-extrabold leading-tight mb-4">
-                    MAQDIS GANTENG BANGET<br/>
+                    Employee Performance Appraisal<br/>
                     <span class="text-blue-300">360° Core Values AKHLAK</span>
                 </h1>
                 <p class="text-lg text-blue-100 mb-8 max-w-md">

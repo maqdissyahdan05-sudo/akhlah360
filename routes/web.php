@@ -47,6 +47,7 @@ Route::middleware(['auth', \App\Http\Middleware\AuditLogger::class])->group(func
         Route::patch('users/{user}/toggle-status', [AdminHr\UserController::class, 'toggleStatus'])->name('users.toggle-status');
         
         Route::get('progress', [AdminHr\ProgressController::class, 'index'])->name('progress.index');
+        Route::post('progress/send-notification', [AdminHr\ProgressController::class, 'sendNotification'])->name('progress.send-notification');
         Route::get('audit-logs', [AdminHr\AuditLogController::class, 'index'])->name('audit-logs.index');
     });
 
@@ -55,6 +56,8 @@ Route::middleware(['auth', \App\Http\Middleware\AuditLogger::class])->group(func
         Route::get('/dashboard', [Management\DashboardController::class, 'index'])->name('dashboard');
         
         Route::get('/reports', [Management\ReportController::class, 'index'])->name('reports.index');
+        Route::get('/reports/gap-analysis', [Management\ReportController::class, 'gapAnalysis'])->name('reports.gap-analysis');
+        Route::get('/reports/performance-trend', [Management\ReportController::class, 'trendAnalysis'])->name('reports.trend');
         Route::get('/reports/{result}', [Management\ReportController::class, 'show'])->name('reports.show');
         Route::get('/reports-export', [Management\ReportController::class, 'exportCsv'])->name('reports.export');
     });

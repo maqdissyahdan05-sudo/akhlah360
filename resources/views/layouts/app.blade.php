@@ -58,7 +58,10 @@
                             <div x-show="open" x-cloak class="mt-1 ml-4 pl-4 border-l border-gray-100 space-y-1">
                                 <x-nav-link href="{{ route('admin.progress.index') }}" :active="request()->routeIs('admin.progress.*')" class="!py-1.5 !text-xs">Monitor Assessment Progress</x-nav-link>
                                 <x-nav-link href="{{ route('admin.audit-logs.index') }}" :active="request()->routeIs('admin.audit-logs.*')" class="!py-1.5 !text-xs">View Audit Trail</x-nav-link>
-                                <a href="#" class="block px-4 py-1.5 text-xs font-medium text-gray-500 hover:text-blue-600 rounded-md">Send Notification</a>
+                                <form action="{{ route('admin.progress.send-notification') }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" class="w-full text-left px-4 py-1.5 text-xs font-medium text-gray-500 hover:text-blue-600 rounded-md">Send Notification</button>
+                                </form>
                             </div>
                         </div>
 
@@ -71,9 +74,9 @@
                                 <svg class="w-4 h-4 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
                             <div x-show="open" x-cloak class="mt-1 ml-4 pl-4 border-l border-gray-100 space-y-1">
-                                <x-nav-link href="{{ route('management.reports.index') }}" :active="request()->routeIs('management.reports.*')" class="!py-1.5 !text-xs">View Assessment Report</x-nav-link>
-                                <a href="#" class="block px-4 py-1.5 text-xs font-medium text-gray-500 hover:text-blue-600 rounded-md">View Gap Analysis</a>
-                                <a href="#" class="block px-4 py-1.5 text-xs font-medium text-gray-500 hover:text-blue-600 rounded-md">View Employee Performance Trend</a>
+                                <x-nav-link href="{{ route('management.reports.index') }}" :active="request()->routeIs('management.reports.index')" class="!py-1.5 !text-xs">View Assessment Report</x-nav-link>
+                                <x-nav-link href="{{ route('management.reports.gap-analysis') }}" :active="request()->routeIs('management.reports.gap-analysis')" class="!py-1.5 !text-xs">View Gap Analysis</x-nav-link>
+                                <x-nav-link href="{{ route('management.reports.trend') }}" :active="request()->routeIs('management.reports.trend')" class="!py-1.5 !text-xs">View Employee Performance Trend</x-nav-link>
                                 <a href="{{ route('management.reports.export') }}" class="block px-4 py-1.5 text-xs font-medium text-gray-500 hover:text-blue-600 rounded-md">Export Report</a>
                             </div>
                         </div>
