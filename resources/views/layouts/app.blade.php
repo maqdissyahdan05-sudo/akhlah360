@@ -43,6 +43,7 @@
                             </button>
                             <div x-show="open" x-cloak class="mt-1 ml-4 pl-4 border-l border-gray-100 space-y-1">
                                 <x-nav-link href="{{ route('admin.periods.index') }}" :active="request()->routeIs('admin.periods.*')" class="!py-1.5 !text-xs">Manage Assessment Period</x-nav-link>
+                                <x-nav-link href="{{ route('admin.akhlaq-values.index') }}" :active="request()->routeIs('admin.akhlaq-values.*')" class="!py-1.5 !text-xs">Manage Assessment Questions</x-nav-link>
                                 <x-nav-link href="{{ route('admin.assignments.index') }}" :active="request()->routeIs('admin.assignments.*')" class="!py-1.5 !text-xs">Assign 360 Raters</x-nav-link>
                             </div>
                         </div>
