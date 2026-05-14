@@ -58,10 +58,7 @@
                             <div x-show="open" x-cloak class="mt-1 ml-4 pl-4 border-l border-gray-100 space-y-1">
                                 <x-nav-link href="{{ route('admin.progress.index') }}" :active="request()->routeIs('admin.progress.*')" class="!py-1.5 !text-xs">Monitor Assessment Progress</x-nav-link>
                                 <x-nav-link href="{{ route('admin.audit-logs.index') }}" :active="request()->routeIs('admin.audit-logs.*')" class="!py-1.5 !text-xs">View Audit Trail</x-nav-link>
-                                <form action="{{ route('admin.progress.send-notification') }}" method="POST" class="inline">
-                                    @csrf
-                                    <button type="submit" class="w-full text-left px-4 py-1.5 text-xs font-medium text-gray-500 hover:text-blue-600 rounded-md">Send Notification</button>
-                                </form>
+                                <x-nav-link href="{{ route('admin.progress.notifications') }}" :active="request()->routeIs('admin.progress.notifications')" class="!py-1.5 !text-xs">Send Notification</x-nav-link>
                             </div>
                         </div>
 

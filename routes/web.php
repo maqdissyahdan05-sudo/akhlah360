@@ -47,6 +47,7 @@ Route::middleware(['auth', \App\Http\Middleware\AuditLogger::class])->group(func
         Route::patch('users/{user}/toggle-status', [AdminHr\UserController::class, 'toggleStatus'])->name('users.toggle-status');
         
         Route::get('progress', [AdminHr\ProgressController::class, 'index'])->name('progress.index');
+        Route::get('progress/notifications', [AdminHr\ProgressController::class, 'notifications'])->name('progress.notifications');
         Route::post('progress/send-notification', [AdminHr\ProgressController::class, 'sendNotification'])->name('progress.send-notification');
         Route::get('audit-logs', [AdminHr\AuditLogController::class, 'index'])->name('audit-logs.index');
     });
