@@ -31,11 +31,11 @@
                     @php $role = auth()->user()->role->role_slug; @endphp
                     
                     @if($role === 'admin_hr')
-                        <x-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')">Dashboard</x-nav-link>
-                        <x-nav-link href="{{ route('admin.periods.index') }}" :active="request()->routeIs('admin.periods.*')">Assessment Periods</x-nav-link>
-                        <x-nav-link href="{{ route('admin.assignments.index') }}" :active="request()->routeIs('admin.assignments.*')">360° Mapping</x-nav-link>
-                        <x-nav-link href="{{ route('admin.progress.index') }}" :active="request()->routeIs('admin.progress.*')">Monitor Progress</x-nav-link>
-                        <x-nav-link href="{{ route('management.reports.index') }}" :active="request()->routeIs('management.reports.*')">Performance Reports</x-nav-link>
+                        <x-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')">View Dashboard</x-nav-link>
+                        <x-nav-link href="{{ route('admin.periods.index') }}" :active="request()->routeIs('admin.periods.*')">Manage Assessment Period</x-nav-link>
+                        <x-nav-link href="{{ route('admin.assignments.index') }}" :active="request()->routeIs('admin.assignments.*')">Assign 360 Raters</x-nav-link>
+                        <x-nav-link href="{{ route('admin.progress.index') }}" :active="request()->routeIs('admin.progress.*')">Monitor Assessment Progress</x-nav-link>
+                        <x-nav-link href="{{ route('management.reports.index') }}" :active="request()->routeIs('management.reports.*')">Assessment Report</x-nav-link>
                         <x-nav-link href="{{ route('assessment.dashboard') }}" :active="request()->routeIs('assessment.dashboard')">Personal Dashboard</x-nav-link>
                         <x-nav-link href="{{ route('assessment.tasks') }}" :active="request()->routeIs('assessment.tasks') || request()->routeIs('assessment.form.*')">Assessment Tasks</x-nav-link>
                         
@@ -44,17 +44,17 @@
                         <x-nav-link href="{{ route('admin.departments.index') }}" :active="request()->routeIs('admin.departments.*')">Departments</x-nav-link>
                         <x-nav-link href="{{ route('admin.akhlaq-values.index') }}" :active="request()->routeIs('admin.akhlaq-values.*')">Core Values (AKHLAK)</x-nav-link>
                         <x-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.*')">User Accounts</x-nav-link>
-                        <x-nav-link href="{{ route('admin.audit-logs.index') }}" :active="request()->routeIs('admin.audit-logs.*')">System Logs</x-nav-link>
+                        <x-nav-link href="{{ route('admin.audit-logs.index') }}" :active="request()->routeIs('admin.audit-logs.*')">View Audit Trail</x-nav-link>
                     
                     @elseif($role === 'manajemen')
-                        <x-nav-link href="{{ route('management.dashboard') }}" :active="request()->routeIs('management.dashboard')">Dashboard</x-nav-link>
-                        <x-nav-link href="{{ route('management.reports.index') }}" :active="request()->routeIs('management.reports.*')">Performance Reports</x-nav-link>
+                        <x-nav-link href="{{ route('management.dashboard') }}" :active="request()->routeIs('management.dashboard')">View Dashboard</x-nav-link>
+                        <x-nav-link href="{{ route('management.reports.index') }}" :active="request()->routeIs('management.reports.*')">Assessment Report</x-nav-link>
                         <x-nav-link href="{{ route('assessment.dashboard') }}" :active="request()->routeIs('assessment.dashboard')">Personal Dashboard</x-nav-link>
-                        <x-nav-link href="{{ route('assessment.tasks') }}" :active="request()->routeIs('assessment.tasks') || request()->routeIs('assessment.form.*')">Assessment Tasks</x-nav-link>
+                        <x-nav-link href="{{ route('assessment.tasks') }}" :active="request()->routeIs('assessment.tasks') || request()->routeIs('assessment.form.*')">Assessment Form</x-nav-link>
                     
                     @elseif(in_array($role, ['atasan', 'karyawan']))
-                        <x-nav-link href="{{ route('assessment.dashboard') }}" :active="request()->routeIs('assessment.dashboard')">Dashboard</x-nav-link>
-                        <x-nav-link href="{{ route('assessment.tasks') }}" :active="request()->routeIs('assessment.tasks') || request()->routeIs('assessment.form.*')">Assessment Tasks</x-nav-link>
+                        <x-nav-link href="{{ route('assessment.dashboard') }}" :active="request()->routeIs('assessment.dashboard')">View Dashboard</x-nav-link>
+                        <x-nav-link href="{{ route('assessment.tasks') }}" :active="request()->routeIs('assessment.tasks') || request()->routeIs('assessment.form.*')">Assessment Form</x-nav-link>
                     @endif
                 </nav>
             </div>

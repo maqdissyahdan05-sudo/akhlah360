@@ -30,8 +30,15 @@
                     <div>
                         <div class="flex items-center space-x-2 mb-1">
                             <p class="font-bold text-gray-900 text-lg">{{ $assignment->ratee->employee_name }}</p>
-                            <span class="px-2 py-0.5 text-[10px] uppercase tracking-wider font-bold rounded bg-gray-200 text-gray-700">
-                                {{ $assignment->relationship_type }}
+                            <span class="px-2 py-0.5 text-[10px] uppercase tracking-wider font-bold rounded {{ 
+                                $assignment->relationship_type === 'superior' ? 'bg-purple-100 text-purple-700' : 
+                                ($assignment->relationship_type === 'subordinate' ? 'bg-blue-100 text-blue-700' : 
+                                ($assignment->relationship_type === 'peer' ? 'bg-orange-100 text-orange-700' : 'bg-green-100 text-green-700')) 
+                            }}">
+                                @if($assignment->relationship_type === 'superior') Assessing Subordinate
+                                @elseif($assignment->relationship_type === 'subordinate') Assessing Superior
+                                @elseif($assignment->relationship_type === 'peer') Assessing Peer
+                                @else Self-Assessment @endif
                             </span>
                         </div>
                         <p class="text-sm text-gray-500">{{ $assignment->period->period_name }}</p>
@@ -63,7 +70,16 @@
                     <div>
                         <div class="flex items-center space-x-2">
                             <p class="font-medium text-gray-800">{{ $assignment->ratee->employee_name }}</p>
-                            <span class="text-xs text-gray-400">({{ $assignment->relationship_type }})</span>
+                            <span class="text-xs font-bold uppercase tracking-tighter {{ 
+                                $assignment->relationship_type === 'superior' ? 'text-purple-500' : 
+                                ($assignment->relationship_type === 'subordinate' ? 'text-blue-500' : 
+                                ($assignment->relationship_type === 'peer' ? 'text-orange-500' : 'text-green-500')) 
+                            }}">
+                                @if($assignment->relationship_type === 'superior') Subordinate
+                                @elseif($assignment->relationship_type === 'subordinate') Superior
+                                @elseif($assignment->relationship_type === 'peer') Peer
+                                @else Self @endif
+                            </span>
                         </div>
                         <p class="text-xs text-gray-500 mt-1">Completed on: {{ $assignment->completed_at->format('M d, Y H:i') }}</p>
                     </div>
