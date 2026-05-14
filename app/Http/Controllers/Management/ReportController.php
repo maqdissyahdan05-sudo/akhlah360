@@ -12,6 +12,29 @@ use Illuminate\Http\Response;
 
 class ReportController extends Controller
 {
+    public function exportPreview(Request $request): View
+    {
+        $periods = AssessmentPeriod::whereIn('status', ['active', 'closed'])->orderByDesc('period_id')->get();
+        $selectedPeriodId = $request->get('period_id', $periods->first()?->period_id);
+        
+        $departments = Department::withCount(['employees' => function($q) use ($selectedPeriodId) {
+            $q->whereHas('assessmentResults', function($q) use ($selectedPeriodId) {
+                $q->where('period_id', $selectedPeriodId);
+            });
+        }])->get();
+
+        $summary = [];
+        if ($selectedPeriodId) {
+            $summary = [
+                'total_employees' => \App\Models\Employee::count(),
+                'completed_assessments' => AssessmentResult::where('period_id', $selectedPeriodId)->count(),
+                'avg_score' => AssessmentResult::where('period_id', $selectedPeriodId)->avg('final_score') ?? 0,
+            ];
+        }
+
+        return view('management.reports.export_preview', compact('periods', 'selectedPeriodId', 'departments', 'summary'));
+    }
+
     public function index(Request $request): View
     {
         $periods = AssessmentPeriod::whereIn('status', ['active', 'closed'])->orderByDesc('period_id')->get();
@@ -58,7 +81,14 @@ class ReportController extends Controller
         $departmentId = $request->get('department_id');
 
         if (!$periodId) {
-            return back()->with('error', 'Pilih periode penilaian terlebih dahulu.');
+            $latestPeriod = AssessmentPeriod::whereIn('status', ['active', 'closed'])
+                ->orderByDesc('period_id')
+                ->first();
+            
+            if (!$latestPeriod) {
+                return back()->with('error', 'Pilih periode penilaian terlebih dahulu.');
+            }
+            $periodId = $latestPeriod->period_id;
         }
 
         $results = AssessmentResult::with('employee.department')
@@ -66,41 +96,41 @@ class ReportController extends Controller
             ->when($departmentId, fn($q) => $q->whereHas('employee', fn($q) => $q->where('department_id', $departmentId)))
             ->get();
 
+        \Log::info('Export CSV triggered', ['period_id' => $periodId, 'dept_id' => $departmentId]);
+
         $period = AssessmentPeriod::find($periodId);
-        $filename = "assessment_report_{$period->period_name}.csv";
+        
+        if (!$period) {
+            return back()->with('error', 'Periode tidak ditemukan.');
+        }
 
-        $headers = [
-            "Content-type"        => "text/csv",
-            "Content-Disposition" => "attachment; filename=$filename",
-            "Pragma"              => "no-cache",
-            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
-            "Expires"             => "0"
-        ];
+        $filename = "assessment_report_" . str_replace(' ', '_', $period->period_name) . ".csv";
 
+        $tempFile = tempnam(sys_get_temp_dir(), 'export');
+        $file = fopen($tempFile, 'w');
+        
         $columns = ['NIK', 'Nama Karyawan', 'Departemen', 'Skor Self', 'Skor Peer', 'Skor Superior', 'Skor Subordinate', 'Skor Akhir', 'Gap'];
+        fputcsv($file, $columns);
 
-        $callback = function() use($results, $columns) {
-            $file = fopen('php://output', 'w');
-            fputcsv($file, $columns);
+        foreach ($results as $result) {
+            fputcsv($file, [
+                $result->employee->employee_number,
+                $result->employee->employee_name,
+                $result->employee->department->department_name ?? '-',
+                $result->self_score,
+                $result->peer_score,
+                $result->superior_score,
+                $result->subordinate_score,
+                $result->final_score,
+                $result->gap_score,
+            ]);
+        }
 
-            foreach ($results as $result) {
-                fputcsv($file, [
-                    $result->employee->employee_number,
-                    $result->employee->employee_name,
-                    $result->employee->department->department_name ?? '-',
-                    $result->self_score,
-                    $result->peer_score,
-                    $result->superior_score,
-                    $result->subordinate_score,
-                    $result->final_score,
-                    $result->gap_score,
-                ]);
-            }
+        fclose($file);
 
-            fclose($file);
-        };
-
-        return response()->stream($callback, 200, $headers);
+        return response()->download($tempFile, $filename, [
+            'Content-Type' => 'text/csv',
+        ])->deleteFileAfterSend(true);
     }
 
     public function gapAnalysis(Request $request): View

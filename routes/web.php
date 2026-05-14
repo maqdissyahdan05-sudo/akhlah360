@@ -56,11 +56,12 @@ Route::middleware(['auth', \App\Http\Middleware\AuditLogger::class])->group(func
     Route::middleware(\App\Http\Middleware\RoleMiddleware::class.':manajemen,admin_hr')->prefix('management')->name('management.')->group(function () {
         Route::get('/dashboard', [Management\DashboardController::class, 'index'])->name('dashboard');
         
+        Route::get('/assessment-summary-export', [Management\ReportController::class, 'exportPreview'])->name('reports.export-preview');
+        Route::get('/reports-export', [Management\ReportController::class, 'exportCsv'])->name('reports.export');
         Route::get('/reports', [Management\ReportController::class, 'index'])->name('reports.index');
         Route::get('/reports/gap-analysis', [Management\ReportController::class, 'gapAnalysis'])->name('reports.gap-analysis');
         Route::get('/reports/performance-trend', [Management\ReportController::class, 'trendAnalysis'])->name('reports.trend');
         Route::get('/reports/{result}', [Management\ReportController::class, 'show'])->name('reports.show');
-        Route::get('/reports-export', [Management\ReportController::class, 'exportCsv'])->name('reports.export');
     });
 
     // ASSESSMENT ROUTES (Semua role bisa mengakses karena setiap orang dinilai)
