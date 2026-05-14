@@ -81,13 +81,13 @@ class DatabaseSeeder extends Seeder
 
             // Generate user account for them
             if ($i === 0) { // Force first to be Admin HR
-                User::create(['username' => 'adminhr', 'role_id' => $adminRole, 'employee_id' => $emp->employee_id, 'email' => 'admin@akhlak.local', 'password' => $defaultPassword]);
+                User::create(['username' => 'hradmin', 'role_id' => $adminRole, 'employee_id' => $emp->employee_id, 'email' => 'admin@akhlak.local', 'password' => $defaultPassword]);
             } elseif ($i === 1) { // Force second to be Manajemen (Maqdis)
-                User::create(['username' => 'maqdis', 'role_id' => $manajemenRole, 'employee_id' => $emp->employee_id, 'email' => 'maqdis@akhlak.local', 'password' => $defaultPassword]);
+                User::create(['username' => 'management', 'role_id' => $manajemenRole, 'employee_id' => $emp->employee_id, 'email' => 'maqdis@akhlak.local', 'password' => $defaultPassword]);
             } elseif ($i === 2) { // Cindy (Superior)
-                User::create(['username' => 'cindy', 'role_id' => $atasanRole, 'employee_id' => $emp->employee_id, 'email' => 'cindy@akhlak.local', 'password' => $defaultPassword]);
+                User::create(['username' => 'superior', 'role_id' => $atasanRole, 'employee_id' => $emp->employee_id, 'email' => 'cindy@akhlak.local', 'password' => $defaultPassword]);
             } elseif ($i === 3) { // Arsha (Karyawan)
-                User::create(['username' => 'arsha', 'role_id' => $karyawanRole, 'employee_id' => $emp->employee_id, 'email' => 'arsha@akhlak.local', 'password' => $defaultPassword]);
+                User::create(['username' => 'employee', 'role_id' => $karyawanRole, 'employee_id' => $emp->employee_id, 'email' => 'arsha@akhlak.local', 'password' => $defaultPassword]);
             } elseif ($isManager) {
                 $username = 'manager' . ($i + 1);
                 User::create(['username' => $username, 'role_id' => $atasanRole, 'employee_id' => $emp->employee_id, 'email' => $username . '@akhlak.local', 'password' => $defaultPassword]);
