@@ -75,10 +75,10 @@
                                 ($assignment->relationship_type === 'subordinate' ? 'text-blue-500' : 
                                 ($assignment->relationship_type === 'peer' ? 'text-orange-500' : 'text-green-500')) 
                             }}">
-                                @if($assignment->relationship_type === 'superior') Subordinate
-                                @elseif($assignment->relationship_type === 'subordinate') Superior
-                                @elseif($assignment->relationship_type === 'peer') Peer
-                                @else Self @endif
+                                @if($assignment->relationship_type === 'superior') Assessing Subordinate
+                                @elseif($assignment->relationship_type === 'subordinate') Assessing Superior
+                                @elseif($assignment->relationship_type === 'peer') Assessing Peer
+                                @else Self-Assessment @endif
                             </span>
                         </div>
                         <p class="text-xs text-gray-500 mt-1">Completed on: {{ $assignment->completed_at->format('M d, Y H:i') }}</p>
